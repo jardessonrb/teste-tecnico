@@ -18,6 +18,7 @@
     "express": "^4.17.2",
     "pg": "^8.7.1",
     "sequelize": "^7.0.0-alpha.2",
+    "sequelize-cli": "^6.3.0",
     "yup": "^0.32.11"
   }
 }
