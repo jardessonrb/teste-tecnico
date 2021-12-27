@@ -14,7 +14,8 @@ module.exports = {
         allowNull: false
       },
       cpf: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
+        length: 11,
         allowNull: false
       },
       email:{

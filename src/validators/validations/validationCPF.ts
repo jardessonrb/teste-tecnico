@@ -1,8 +1,8 @@
-function cleanCPF(cpf){
+function cleanCPF(cpf: string){
   return cpf.replace(/[^\d]+/g, '');
 }
 
-function defineSecondCheckDigit(cpf){
+function defineSecondCheckDigit(cpf: string){
   let multiple = 11;
   let soma = 0;
   for (let i = 0; i < 10; i++) {
@@ -13,7 +13,7 @@ function defineSecondCheckDigit(cpf){
   return defineRest((soma * 10) % 11);
 }
 
-function defineFirstCheckDigit(cpf){
+function defineFirstCheckDigit(cpf: string){
   let soma = 0;
   let multiple = 10;
   for (let i = 0; i < 9; i++) {
@@ -24,7 +24,7 @@ function defineFirstCheckDigit(cpf){
   return defineRest((soma * 10) % 11);
 }
 
-function defineRest(rest){
+function defineRest(rest: number){
   if(rest == 10 || rest == 11){
     return 0;
   }
@@ -32,7 +32,7 @@ function defineRest(rest){
   return rest;
 }
 
-function validationCPF(cpf){
+function validationCPF(cpf: string){
   cpf = cleanCPF(cpf);
   if(cpf.length !== 11){
     return false;
@@ -60,4 +60,4 @@ function validationCPF(cpf){
 
 }
 
-export { validationCPF };
+export { validationCPF, cleanCPF };
