@@ -1,14 +1,16 @@
 import { Request, Response } from "express";
-import { Emploee } from "../database/models/Emploee";
+import { validation } from "../types/validation";
+import { Emploee } from "../models/Emploee";
 import EmploeeValidator from "../validators/EmploeeValidator";
+import { ErrorValidation } from "../types/responses";
 
 class EmploeeController{
   async createEmploee(request: Request, response: Response): Promise<Response> {
     const { name, cpf, email, password, avatar, biografy, type } = request.body;
 
-    const { isValide, errors} = await EmploeeValidator.createValidation(request.body);
-    if(!isValide){
-      return response.status(403).json({message: "Campos invalidos", errors});
+    const validation: validation = await EmploeeValidator.createValidation(request.body);
+    if(!validation.isValid){
+      return response.status(403).json({message: "Campos invalidos", errors: validation.errors} as ErrorValidation);
     }
 
     const emploeeCreated = await Emploee.create(request.body);

@@ -1,9 +1,10 @@
 import * as Yup from 'yup';
-import { Emploee } from '../database/models/Emploee';
+import { validation } from '../types/validation';
+import { Emploee } from '../models/Emploee';
 import { validationCPF } from './validations/validationCPF';
 
 class EmploeeValidator{
-  async createValidation(emploee: Emploee) {
+  async createValidation(emploee: Emploee): Promise<validation>{
     const schemaValidation = Yup.object().shape({
       name: Yup.string().required("O nome do funcionário é obrigatorio"),
       cpf: Yup.string().required("O cpf do funcionário é obrigatorio").test("cpf", "CPF inválido",(value) => validationCPF(value)),
@@ -19,9 +20,9 @@ class EmploeeValidator{
         abortEarly: false
       });
 
-      return {isValide: true, errors: []};
+      return {isValid: true, errors: []};
     } catch (error) {
-      return {isValide: false, errors: error.errors};
+      return {isValid: false, errors: error.errors};
     }
   }
 
