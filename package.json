@@ -5,11 +5,15 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev --transpile-only --ignore-watch node_modules src/server.ts",
-    "start": "node dist/src/server.js"
+    "start": "node dist/src/server.js",
+    "migration": "npx sequelize-cli db:migrate",
+    "revert": "npx sequelize-cli db:migrate:undo"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
     "@types/node": "^17.0.4",
+    "@types/sequelize": "^4.28.11",
+    "@types/validator": "^13.7.1",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.5.4"
   },
