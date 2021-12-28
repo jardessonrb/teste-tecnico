@@ -18,16 +18,18 @@ class EmploeeController{
     try {
       const cpfClean = cleanCPF(cpf);
       const emploee = await EmploeeService.findEmploeeByCPFAndEmail(cpfClean, email);
+      console.log(emploee);
       if(emploee){
-        const errors = [];
-        if(emploee.email == email){
-          errors.push("Esse email já pertence a um usuario")
-        }
-        if(emploee.cpf == cpfClean){
-          errors.push("Usuário já cadastrado com esse CPF")
-        }
-        const res: ErrorValidation = {message: "Erro ao cadastrar usuario", type: "error validation", errors};
-        return response.status(403).json(res);
+      const errors = [];
+      if(emploee.email == email){
+        errors.push("Esse email já pertence a um usuario")
+      }
+      if(emploee.cpf == cpfClean){
+        errors.push("Usuário já cadastrado com esse CPF")
+      }
+
+      const res: ErrorValidation = {message: "Erro ao cadastrar usuario", type: "error validation", errors};
+      return response.status(403).json(res);
       }
 
       const emploeeCreated = await EmploeeService.createEmploee({
@@ -37,6 +39,7 @@ class EmploeeController{
         password,
         avatar,
         biography,
+        offCompany: false,
         type
       })
       const res: SuccessResponse = {message: "Funcionario criado com sucesso", type: "success", body: emploeeCreated};
@@ -44,7 +47,7 @@ class EmploeeController{
 
     } catch (error) {
       const res: ErrorServer = {message: "Erro no servidor", type: "error server", errors: []};
-      return response.status(403).json(res);
+      return response.status(500).json(res);
     }
   }
 
@@ -71,7 +74,8 @@ class EmploeeController{
     }
 
     try {
-      const emploee = await EmploeeService.findEmploeeByCPF(cpf);
+      const cpfClean = cleanCPF(cpf);
+      const emploee = await EmploeeService.findEmploeeByCPF(cpfClean);
       if(emploee){
         const res: SuccessResponse = {message: "Funcionário buscado por CPF", type: "success", body: emploee};
         return response.status(200).json(res);
@@ -109,7 +113,25 @@ class EmploeeController{
 
     } catch (error) {
       const res: ErrorServer = {message: "Erro no servidor", type: "error server", errors: []};
+      return response.status(500).json(res);
+    }
+  }
+
+  async disconnectEmploeeCompany(request: Request, response: Response): Promise<Response> {
+    const { emploeeId } = request.params;
+    const validation = await EmploeeValidator.idValidation(emploeeId);
+    if(!validation.isValid){
+      const res: ErrorValidation = {message: "Campo inválido", type: "error validation", errors: validation.errors};
       return response.status(403).json(res);
+    }
+
+    try {
+      await EmploeeService.excludeEmploeeOfCompany(emploeeId);
+      const res: SuccessResponse = {message: "Funcionário excluído com sucesso", type: "success"};
+      return response.status(202).json(res);
+    } catch (error) {
+      const res: ErrorServer = {message: "Erro no servidor", type: "error server", errors: []};
+      return response.status(500).json(res);
     }
   }
 

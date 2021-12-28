@@ -62,5 +62,15 @@ Vehicle.init({
   status: {
     type: new DataTypes.STRING,
     allowNull: false
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    defaultValue: Date.now(),
+    allowNull: false
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    defaultValue: Date.now(),
+    allowNull: false
   }
 },{sequelize, tableName: "vehicle"});

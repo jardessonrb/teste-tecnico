@@ -7,7 +7,9 @@
     "dev": "ts-node-dev --transpile-only --ignore-watch node_modules src/server.ts",
     "start": "node dist/src/server.js",
     "migration": "npx sequelize-cli db:migrate",
-    "revert": "npx sequelize-cli db:migrate:undo"
+    "revert": "npx sequelize-cli db:migrate:undo",
+    "revert-all": "npx sequelize-cli db:migrate:undo:all",
+    "create-migration": "npx sequelize-cli migration:generate --name"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",

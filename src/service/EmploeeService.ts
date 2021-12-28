@@ -1,4 +1,4 @@
-import { Op } from "sequelize";
+import { Op, where } from "sequelize";
 import { Emploee } from "../models/Emploee";
 
 class EmploeeService{
@@ -16,7 +16,7 @@ class EmploeeService{
       const emploee = await Emploee.findOne({where:{ [Op.or]: {cpf, email}}});
       return emploee;
     } catch (error) {
-      throw new Error();
+      return undefined;
     }
   }
 
@@ -24,7 +24,7 @@ class EmploeeService{
     const offSet = (page - 1) * limit;
     limit = limit * page;
     try {
-      const emploees = await Emploee.findAll({limit: limit, offset: offSet});
+      const emploees = await Emploee.findAll({where:{offCompany: false}, limit: limit, offset: offSet});
       return emploees;
     } catch (error) {
       throw new Error();
@@ -67,6 +67,22 @@ class EmploeeService{
     } catch (error) {
       throw new Error();
     }
+  }
+
+  async excludeEmploeeOfCompany(emploeeId: string): Promise<void>{
+
+    try {
+      const emploeeUpdated = await Emploee.update({
+        offCompany: true
+       }, {
+         where: {
+           id: emploeeId
+         }
+       });
+    } catch (error) {
+      throw new Error();
+    }
+
   }
 }
 

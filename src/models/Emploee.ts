@@ -13,6 +13,7 @@ export class Emploee extends Model<EmploeeAttribute, EmploeeCreationAttributes> 
   avatar: string;
   biography!: string;
   type!: string;
+  offCompany!: boolean;
 
   readonly createdAt!: Date;
   readonly updatedAt!: Date;
@@ -53,6 +54,11 @@ Emploee.init({
   type: {
     type: new DataTypes.STRING(),
     allowNull: false
+  },
+  offCompany: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
   },
   createdAt: {
     type: DataTypes.DATE,

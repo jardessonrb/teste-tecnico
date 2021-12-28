@@ -7,6 +7,7 @@ interface EmploeeAttribute {
   avatar: string;
   biography: string;
   type: string;
+  offCompany: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

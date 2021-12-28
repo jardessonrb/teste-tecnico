@@ -11,6 +11,7 @@ routes.post("/emploee", EmploeeController.createEmploee);
 routes.get("/emploee", EmploeeController.listEmploees);
 routes.get("/emploee/:cpf", EmploeeController.findEmploeeByCPF);
 routes.put("/emploee/:emploeeId", EmploeeController.updateEmploee);
+routes.delete("/emploee/:emploeeId", EmploeeController.disconnectEmploeeCompany);
 
 
 export { routes };

@@ -9,6 +9,8 @@ interface VehicleAttribute {
   purchasePrice: number;
   type: string;
   status: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export default VehicleAttribute;

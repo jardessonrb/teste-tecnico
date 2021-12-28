@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("vehicle", {
+    await queryInterface.createTable("vehicles", {
       id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUID,
@@ -35,7 +35,8 @@ module.exports = {
       },
       purchasePrice: {
         type: Sequelize.DOUBLE,
-        allowNull: false
+        allowNull: false,
+        field: "purchase_price"
       },
       type: {
         type: Sequelize.STRING,
@@ -49,6 +50,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('vehicle');
+    await queryInterface.dropTable('vehicles');
   }
 };
