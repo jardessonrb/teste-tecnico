@@ -6,7 +6,6 @@ import VehicleValidator from "../validators/VehicleValidator";
 class VehicleController {
   async createVehicle(request: Request, response: Response): Promise<Response> {
     const { brand, model, year, kilometer, color, chassis, purchasePrice, salePrice, type } = request.body;
-    console.log(parseFloat(salePrice));
     const validation = await VehicleValidator.createValidation(request.body);
     if(!validation.isValid){
       const res: ErrorValidation = {message: "Campos invalidos", type: "error validation", errors: validation.errors};
@@ -38,6 +37,20 @@ class VehicleController {
     } catch (error) {
       const res: ErrorServer = {message: "Erro no servidor", type: "error server", errors: []};
       return response.status(500).json(res);
+    }
+  }
+
+  async listVehicles(request: Request, response: Response): Promise<Response> {
+    const { page = 1, limit = 10 } = request.query;
+
+    try {
+      const vehicles = await VehicleService.findAllVehicles(Number(page), Number(limit));
+      const res: SuccessResponse = {message: "Lista de carros pagina "+page, type: "success", body: vehicles};
+      return response.status(200).json(res);
+
+    } catch (error) {
+      const res: ErrorServer = {message: "Erro no servidor", type: "error server", errors: []};
+      return response.status(403).json(res);
     }
   }
 }

@@ -15,6 +15,7 @@ routes.put("/emploee/:emploeeId", EmploeeController.updateEmploee);
 routes.delete("/emploee/:emploeeId", EmploeeController.disconnectEmploeeCompany);
 
 routes.post("/vehicle", VehicleController.createVehicle);
+routes.get("/vehicle", VehicleController.listVehicles);
 
 
 export { routes };
