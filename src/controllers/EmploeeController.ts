@@ -1,7 +1,7 @@
 import { Request, response, Response } from "express";
 import { validation } from "../types/validation";
 import EmploeeValidator from "../validators/EmploeeValidator";
-import { ErrorServer, ErrorValidation, SuccessResponse } from "../types/responses";
+import { ErrorServer, ErrorValidation, NotResult, SuccessResponse } from "../types/responses";
 import EmploeeService from "../service/EmploeeService";
 import { cleanCPF } from "../validators/validations/validationCPF";
 
@@ -69,7 +69,20 @@ class EmploeeController{
       const res: ErrorValidation = {message: "Campo inválido", type: "error validation", errors: validation.errors};
       return response.status(403).json(res);
     }
-    return response;
+
+    try {
+      const emploee = await EmploeeService.findEmploeeByCPF(cpf);
+      if(emploee){
+        const res: SuccessResponse = {message: "Funcionário buscado por CPF", type: "success", body: emploee};
+        return response.status(200).json(res);
+      }
+      const res: NotResult = {message: "Nenhum funcionário corresponse a sua busca", type: "not result"};
+      return response.status(404).json(res);
+
+    } catch (error) {
+      const res: ErrorServer = {message: "Erro no servidor", type: "error server", errors: []};
+      return response.status(403).json(res);
+    }
   }
 }
 

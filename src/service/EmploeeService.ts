@@ -29,7 +29,15 @@ class EmploeeService{
     } catch (error) {
       throw new Error();
     }
+  }
 
+  async findEmploeeByCPF(cpf: string): Promise<Emploee>{
+    try {
+      const emploee = await Emploee.findOne({where: {cpf}});
+      return emploee;
+    } catch (error) {
+      throw new Error();
+    }
   }
 }
 
