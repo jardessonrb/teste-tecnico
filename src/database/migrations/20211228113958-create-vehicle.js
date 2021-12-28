@@ -34,9 +34,14 @@ module.exports = {
         allowNull: false
       },
       purchasePrice: {
-        type: Sequelize.DOUBLE,
+        type: Sequelize.FLOAT,
         allowNull: false,
         field: "purchase_price"
+      },
+      salePrice: {
+        type: Sequelize.FLOAT,
+        allowNull: false,
+        field: "sale_price"
       },
       type: {
         type: Sequelize.STRING,
@@ -44,6 +49,14 @@ module.exports = {
       },
       status: {
         type: Sequelize.STRING,
+        allowNull: false
+      },
+      createdAt: {
+        type: Sequelize.DATE,
+        allowNull: false
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
         allowNull: false
       }
     });

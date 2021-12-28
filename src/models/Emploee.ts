@@ -58,7 +58,8 @@ Emploee.init({
   offCompany: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
-    defaultValue: false
+    defaultValue: false,
+    field: "off_company"
   },
   createdAt: {
     type: DataTypes.DATE,

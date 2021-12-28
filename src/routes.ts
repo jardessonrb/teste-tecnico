@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import EmploeeController from './controllers/EmploeeController';
+import VehicleController from './controllers/VehicleController';
 
 const routes = Router();
 
@@ -12,6 +13,8 @@ routes.get("/emploee", EmploeeController.listEmploees);
 routes.get("/emploee/:cpf", EmploeeController.findEmploeeByCPF);
 routes.put("/emploee/:emploeeId", EmploeeController.updateEmploee);
 routes.delete("/emploee/:emploeeId", EmploeeController.disconnectEmploeeCompany);
+
+routes.post("/vehicle", VehicleController.createVehicle);
 
 
 export { routes };

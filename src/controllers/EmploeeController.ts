@@ -18,7 +18,6 @@ class EmploeeController{
     try {
       const cpfClean = cleanCPF(cpf);
       const emploee = await EmploeeService.findEmploeeByCPFAndEmail(cpfClean, email);
-      console.log(emploee);
       if(emploee){
       const errors = [];
       if(emploee.email == email){

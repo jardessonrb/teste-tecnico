@@ -43,7 +43,8 @@ module.exports = {
       offCompany: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
-        defaultValue: false
+        defaultValue: false,
+        field: "off_company"
       },
       createdAt: {
         type: Sequelize.DATE,

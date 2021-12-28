@@ -13,6 +13,7 @@ export class Vehicle extends Model<VehicleAttribute, VehicleCreationAttributes> 
   color!: string;
   chassis!: string;
   purchasePrice!: number;
+  salePrice!: number;
   type!: string;
   status!: string;
 
@@ -22,17 +23,17 @@ export class Vehicle extends Model<VehicleAttribute, VehicleCreationAttributes> 
 
 Vehicle.init({
   id: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUID,
+    type: DataTypes.UUIDV4,
+    defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
     field: "id_vehicle"
   },
   brand: {
-    type: new DataTypes.STRING,
+    type: new DataTypes.STRING(),
     allowNull: false
   },
   model: {
-    type: new DataTypes.STRING,
+    type: new DataTypes.STRING(),
     allowNull: false
   },
   year: {
@@ -44,23 +45,29 @@ Vehicle.init({
     allowNull: false
   },
   color: {
-    type: new DataTypes.STRING,
+    type: new DataTypes.STRING(),
     allowNull: false
   },
   chassis: {
-    type: new DataTypes.STRING,
+    type: new DataTypes.STRING(),
     allowNull: false
   },
   purchasePrice: {
-    type: DataTypes.DOUBLE,
-    allowNull: false
+    type: DataTypes.FLOAT,
+    allowNull: false,
+    field: "purchase_price"
+  },
+  salePrice: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+    field: "sale_price"
   },
   type: {
-    type: new DataTypes.STRING,
+    type: new DataTypes.STRING(),
     allowNull: false
   },
   status: {
-    type: new DataTypes.STRING,
+    type: new DataTypes.STRING(),
     allowNull: false
   },
   createdAt: {
@@ -73,4 +80,4 @@ Vehicle.init({
     defaultValue: Date.now(),
     allowNull: false
   }
-},{sequelize, tableName: "vehicle"});
+},{sequelize, tableName: "vehicles"});

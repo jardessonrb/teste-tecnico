@@ -7,6 +7,7 @@ interface VehicleAttribute {
   color: string;
   chassis: string;
   purchasePrice: number;
+  salePrice: number;
   type: string;
   status: string;
   createdAt: Date;
