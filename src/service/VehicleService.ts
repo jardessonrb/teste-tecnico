@@ -24,7 +24,7 @@ class VehicleService {
     limit = limit * page;
 
     try {
-      const vehicles = await Vehicle.findAll({limit: limit, offset: offSet});
+      const vehicles = await Vehicle.findAll({where: {deleted: false}, limit: limit, offset: offSet});
       return vehicles;
     } catch (error) {
       throw new Error();
@@ -44,6 +44,15 @@ class VehicleService {
     const { vehicleId, ...rest} = vehicle;
     try {
       await Vehicle.update(rest, {where: {id: vehicleId}});
+    } catch (error) {
+      throw new Error();
+    }
+  }
+
+  async deleteVehicle(vehicleId: string): Promise<void>{
+    try {
+      const result = await Vehicle.update({deleted: true}, {where: {id: vehicleId}});
+      return;
     } catch (error) {
       throw new Error();
     }

@@ -10,6 +10,7 @@ interface VehicleAttribute {
   salePrice: number;
   type: string;
   status: string;
+  deleted: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

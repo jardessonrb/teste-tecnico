@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import VehicleService from "../service/VehicleService";
 import { ErrorServer, ErrorValidation, NotResult, SuccessResponse } from "../types/responses";
+import { validationPagination } from "../validators/validations/validationPagination";
 import VehicleValidator from "../validators/VehicleValidator";
 
 class VehicleController {
@@ -33,7 +34,7 @@ class VehicleController {
       });
 
       const res: SuccessResponse = {message: "Funcionario criado com sucesso", type: "success", body: vehicleCreated};
-      return response.status(200).json(res);
+      return response.status(201).json(res);
     } catch (error) {
       const res: ErrorServer = {message: "Erro no servidor", type: "error server", errors: []};
       return response.status(500).json(res);
@@ -42,9 +43,10 @@ class VehicleController {
 
   async listVehicles(request: Request, response: Response): Promise<Response> {
     const { page = 1, limit = 10 } = request.query;
+    const pagination = validationPagination(Number(page), Number(limit));
 
     try {
-      const vehicles = await VehicleService.findAllVehicles(Number(page), Number(limit));
+      const vehicles = await VehicleService.findAllVehicles(Number(pagination.page), Number(pagination.limit));
       const res: SuccessResponse = {message: "Lista de carros pagina "+page, type: "success", body: vehicles};
       return response.status(200).json(res);
 
@@ -97,6 +99,20 @@ class VehicleController {
       return response.status(500).json(res);
     }
 
+  }
+
+  async deleteVehicle(request: Request, response: Response): Promise<Response> {
+    const { vehicleId } = request.params;
+
+    try {
+      const vehicle = VehicleService.deleteVehicle(vehicleId);
+      const res: SuccessResponse = {message: "Veiculo excluído com sucesso", type: "success", body: vehicle};
+      return response.status(202).json(res);
+
+    } catch (error) {
+      const res: ErrorServer = {message: "Erro no servidor", type: "error server", errors: []};
+      return response.status(500).json(res);
+    }
   }
 }
 

@@ -4,6 +4,7 @@ import EmploeeValidator from "../validators/EmploeeValidator";
 import { ErrorServer, ErrorValidation, NotResult, SuccessResponse } from "../types/responses";
 import EmploeeService from "../service/EmploeeService";
 import { cleanCPF } from "../validators/validations/validationCPF";
+import { validationPagination } from "../validators/validations/validationPagination";
 
 class EmploeeController{
   async createEmploee(request: Request, response: Response): Promise<Response> {
@@ -42,7 +43,7 @@ class EmploeeController{
         type
       })
       const res: SuccessResponse = {message: "Funcionario criado com sucesso", type: "success", body: emploeeCreated};
-      return response.status(200).json(res);
+      return response.status(201).json(res);
 
     } catch (error) {
       const res: ErrorServer = {message: "Erro no servidor", type: "error server", errors: []};
@@ -52,9 +53,10 @@ class EmploeeController{
 
   async listEmploees(request: Request, response: Response): Promise<Response> {
     const { page = 1, limit = 10 } = request.query;
+    const pagination = validationPagination(Number(page), Number(limit));
 
     try {
-      const emploees = await EmploeeService.findAllEmploees(Number(page), Number(limit));
+      const emploees = await EmploeeService.findAllEmploees(Number(pagination.page), Number(pagination.limit));
       const res: SuccessResponse = {message: "Lista de funcionarios pagina "+page, type: "success", body: emploees};
       return response.status(200).json(res);
 

@@ -16,6 +16,7 @@ export class Vehicle extends Model<VehicleAttribute, VehicleCreationAttributes> 
   salePrice!: number;
   type!: string;
   status!: string;
+  deleted!: boolean;
 
   readonly createdAt!: Date;
   readonly updatedAt!: Date;
@@ -68,6 +69,11 @@ Vehicle.init({
   },
   status: {
     type: new DataTypes.STRING(),
+    allowNull: false
+  },
+  deleted: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
     allowNull: false
   },
   createdAt: {
