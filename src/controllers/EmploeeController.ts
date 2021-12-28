@@ -84,7 +84,7 @@ class EmploeeController{
 
     } catch (error) {
       const res: ErrorServer = {message: "Erro no servidor", type: "error server", errors: []};
-      return response.status(403).json(res);
+      return response.status(500).json(res);
     }
   }
 

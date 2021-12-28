@@ -31,6 +31,15 @@ class VehicleService {
     }
   }
 
+  async findVehicleById(id: string): Promise<Vehicle>{
+    try {
+      const vehicle = await Vehicle.findOne({where:{ id }});
+      return vehicle;
+    } catch (error) {
+      return undefined;
+    }
+  }
+
 }
 
 export default new VehicleService();

@@ -26,6 +26,21 @@ class VehicleValidator{
       return {isValid: false, errors: error.errors};
     }
   }
+
+  async idValidation(id: string): Promise<validation>{
+    const schemaValidation = Yup.object().shape({
+      id: Yup.string().required("O identificador do funcionário é obrigatorio").uuid("Identificador invalido")
+    });
+
+    try {
+      await schemaValidation.validate({id}, {
+        abortEarly: false
+      });
+      return {isValid: true, errors: []};
+    } catch (error) {
+      return {isValid: false, errors: error.errors};
+    }
+  }
 }
 
 export default new VehicleValidator();

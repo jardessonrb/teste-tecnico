@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import VehicleService from "../service/VehicleService";
-import { ErrorServer, ErrorValidation, SuccessResponse } from "../types/responses";
+import { ErrorServer, ErrorValidation, NotResult, SuccessResponse } from "../types/responses";
 import VehicleValidator from "../validators/VehicleValidator";
 
 class VehicleController {
@@ -51,6 +51,29 @@ class VehicleController {
     } catch (error) {
       const res: ErrorServer = {message: "Erro no servidor", type: "error server", errors: []};
       return response.status(403).json(res);
+    }
+  }
+
+  async findVehicleById(request: Request, response: Response): Promise<Response> {
+    const { vehicleId } = request.params;
+    const validation = await VehicleValidator.idValidation(vehicleId);
+    if(!validation.isValid){
+      const res: ErrorValidation = {message: "Campo inválido", type: "error validation", errors: validation.errors};
+      return response.status(403).json(res);
+    }
+
+    try {
+      const vehicle = await VehicleService.findVehicleById(vehicleId);
+      if(vehicle){
+        const res: SuccessResponse = {message: "Veiculo buscado", type: "success", body: vehicle};
+        return response.status(200).json(res);
+      }
+      const res: NotResult = {message: "Nenhum veiculo corresponde a sua busca", type: "not result"};
+      return response.status(404).json(res);
+
+    } catch (error) {
+      const res: ErrorServer = {message: "Erro no servidor", type: "error server", errors: []};
+      return response.status(500).json(res);
     }
   }
 }

@@ -43,7 +43,7 @@ class EmploeeValidator{
 
   async idValidation(id: string): Promise<validation>{
     const schemaValidation = Yup.object().shape({
-      id: Yup.string().required("O cpf do funcionário é obrigatorio").uuid("Identificador invalido")
+      id: Yup.string().required("O identidicador do funcionário é obrigatorio").uuid("Identificador invalido")
     });
 
     try {
