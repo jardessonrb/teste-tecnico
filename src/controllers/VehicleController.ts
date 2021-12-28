@@ -114,6 +114,30 @@ class VehicleController {
       return response.status(500).json(res);
     }
   }
+
+  async findVehiclesByStatus(request: Request, response: Response): Promise<Response> {
+    const { status = "disponivel" } = request.params;
+    const {page = 1, limit = 10} = request.query;
+    const validation = validationPagination(Number(page), Number(limit));
+    if(!status){
+      const res: ErrorValidation = {message: "Status é obrigatório", type: "error validation", errors:[]};
+      return response.status(403).json(res);
+    }
+    if(status !== "disponivel" && status !== "vendido" && status !== "reservado"){
+      const res: ErrorValidation = {message: "Status não corresponde", type: "error validation", errors: []};
+      return response.status(403).json(res);
+    }
+
+    try {
+      const vehicles = await VehicleService.findVehiclesByStatus(status, validation.page, validation.limit);
+      const res: SuccessResponse = {message: "Lista de carros pagina "+page, type: "success", body: vehicles};
+      return response.status(200).json(res);
+
+    } catch (error) {
+      const res: ErrorServer = {message: "Erro no servidor", type: "error server", errors: []};
+      return response.status(403).json(res);
+    }
+  }
 }
 
 export default new VehicleController();

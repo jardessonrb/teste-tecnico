@@ -58,6 +58,18 @@ class VehicleService {
     }
   }
 
+  async findVehiclesByStatus(status: string, page: number, limit: number): Promise<Vehicle[]>{
+    const offSet = (page - 1) * limit;
+    limit = limit * page;
+
+    try {
+      const vehicles = await Vehicle.findAll({where: {status, deleted: false}, limit: limit, offset: offSet});
+      return vehicles;
+    } catch (error) {
+      throw new Error();
+    }
+  }
+
 }
 
 export default new VehicleService();

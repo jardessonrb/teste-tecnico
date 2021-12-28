@@ -19,6 +19,7 @@ routes.get("/vehicle", VehicleController.listVehicles);
 routes.get("/vehicle/:vehicleId", VehicleController.findVehicleById);
 routes.put("/vehicle/:vehicleId", VehicleController.updateVehicle);
 routes.delete("/vehicle/:vehicleId", VehicleController.deleteVehicle);
+routes.get("/vehicle/status/:status", VehicleController.findVehiclesByStatus);
 
 
 export { routes };
