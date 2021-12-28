@@ -10,6 +10,7 @@ routes.get("/", (request: Request, response: Response) => {
 routes.post("/emploee", EmploeeController.createEmploee);
 routes.get("/emploee", EmploeeController.listEmploees);
 routes.get("/emploee/:cpf", EmploeeController.findEmploeeByCPF);
+routes.put("/emploee/:emploeeId", EmploeeController.updateEmploee);
 
 
 export { routes };

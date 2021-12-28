@@ -76,7 +76,7 @@ class EmploeeController{
         const res: SuccessResponse = {message: "Funcionário buscado por CPF", type: "success", body: emploee};
         return response.status(200).json(res);
       }
-      const res: NotResult = {message: "Nenhum funcionário corresponse a sua busca", type: "not result"};
+      const res: NotResult = {message: "Nenhum funcionário corresponde a sua busca", type: "not result"};
       return response.status(404).json(res);
 
     } catch (error) {
@@ -84,6 +84,35 @@ class EmploeeController{
       return response.status(403).json(res);
     }
   }
+
+  async updateEmploee(request: Request, response: Response): Promise<Response> {
+    const { name, password, email, biography } = request.body;
+    const { emploeeId } = request.params;
+    const emploeeUpdate = { name, password, email, biography, emploeeId}
+
+    const validation: validation = await EmploeeValidator.updateValidation(emploeeUpdate);
+    if(!validation.isValid){
+      const res: ErrorValidation = {message: "Campos inválidos", type: "error validation", errors: validation.errors};
+      return response.status(403).json(res);
+    }
+
+    try {
+      const emploee = await EmploeeService.findEmploeeById(emploeeId);
+      if(!emploee){
+        const res: NotResult = {message: "Nenhum funcionário corresponde ao identificador", type: "not result"};
+        return response.status(404).json(res);
+      }
+
+      await EmploeeService.updateEmploee(emploeeUpdate);
+      const res: SuccessResponse = {message: "Funcionário atualizado com sucesso", type: "success"};
+      return response.status(200).json(res);
+
+    } catch (error) {
+      const res: ErrorServer = {message: "Erro no servidor", type: "error server", errors: []};
+      return response.status(403).json(res);
+    }
+  }
+
 }
 
 export default new EmploeeController();

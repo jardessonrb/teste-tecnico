@@ -31,10 +31,39 @@ class EmploeeService{
     }
   }
 
+  async findEmploeeById(emploeeId: string): Promise<Emploee>{
+    try {
+      const emploee = await Emploee.findOne({where: {id: emploeeId}});
+      return emploee;
+    } catch (error) {
+      throw new Error();
+    }
+  }
+
   async findEmploeeByCPF(cpf: string): Promise<Emploee>{
     try {
       const emploee = await Emploee.findOne({where: {cpf}});
       return emploee;
+    } catch (error) {
+      throw new Error();
+    }
+  }
+
+  async updateEmploee(emploee): Promise<any>{
+    const { name, email, password, biography, emploeeId} = emploee;
+    try {
+      const emploeeUpdated = await Emploee.update({
+        name,
+        email,
+        password,
+        biography
+      }, {
+        where: {
+          id: emploeeId
+        }
+      });
+
+      return emploeeUpdated;
     } catch (error) {
       throw new Error();
     }

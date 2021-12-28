@@ -16,6 +16,7 @@ module.exports = {
       cpf: {
         type: Sequelize.TEXT,
         length: 11,
+        unique: true,
         allowNull: false
       },
       email:{
