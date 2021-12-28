@@ -26,6 +26,21 @@ class EmploeeValidator{
     }
   }
 
+  async cpfValidation(cpf: string): Promise<validation>{
+    const schemaValidation = Yup.object().shape({
+      cpf: Yup.string().required("O cpf do funcionário é obrigatorio").test("cpf", "CPF inválido",(value) => validationCPF(value))
+    });
+
+    try {
+      await schemaValidation.validate({cpf}, {
+        abortEarly: false
+      });
+      return {isValid: true, errors: []};
+    } catch (error) {
+      return {isValid: false, errors: error.errors};
+    }
+  }
+
 }
 
 export default new EmploeeValidator();

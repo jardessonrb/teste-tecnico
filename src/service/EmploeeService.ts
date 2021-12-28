@@ -19,6 +19,18 @@ class EmploeeService{
       throw new Error();
     }
   }
+
+  async findAllEmploees(page: number, limit: number): Promise<Emploee[]>{
+    const offSet = (page - 1) * limit;
+    limit = limit * page;
+    try {
+      const emploees = await Emploee.findAll({limit: limit, offset: offSet});
+      return emploees;
+    } catch (error) {
+      throw new Error();
+    }
+
+  }
 }
 
 export default new EmploeeService;

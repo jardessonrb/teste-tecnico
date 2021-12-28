@@ -8,6 +8,8 @@ routes.get("/", (request: Request, response: Response) => {
 });
 
 routes.post("/emploee", EmploeeController.createEmploee);
+routes.get("/emploee", EmploeeController.listEmploees);
+routes.get("/emploee/:cpf", EmploeeController.listEmploees);
 
 
 export { routes };
