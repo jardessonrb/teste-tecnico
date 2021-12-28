@@ -76,6 +76,28 @@ class VehicleController {
       return response.status(500).json(res);
     }
   }
+
+  async updateVehicle(request: Request, response: Response): Promise<Response> {
+    const { vehicleId } = request.params;
+    request.body.vehicleId = vehicleId;
+
+    const validation = await VehicleValidator.updateValidation(request.body);
+    if(!validation.isValid){
+      const res: ErrorValidation = {message: "Campos invalidos", type: "error validation", errors: validation.errors};
+      return response.status(403).json(res);
+    }
+
+    try {
+      await VehicleService.updateVehicle(request.body);
+      const res: SuccessResponse = {message: "Veiculo atualizado com sucesso", type: "success"};
+      return response.status(200).json(res);
+
+    } catch (error) {
+      const res: ErrorServer = {message: "Erro no servidor", type: "error server", errors: []};
+      return response.status(500).json(res);
+    }
+
+  }
 }
 
 export default new VehicleController();

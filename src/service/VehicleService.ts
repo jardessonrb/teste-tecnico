@@ -40,6 +40,15 @@ class VehicleService {
     }
   }
 
+  async updateVehicle(vehicle: any): Promise<void>{
+    const { vehicleId, ...rest} = vehicle;
+    try {
+      await Vehicle.update(rest, {where: {id: vehicleId}});
+    } catch (error) {
+      throw new Error();
+    }
+  }
+
 }
 
 export default new VehicleService();
