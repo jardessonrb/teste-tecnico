@@ -1,5 +1,5 @@
 import { DataTypes, Model, Optional } from "sequelize";
-import { EmploeeAttribute } from "./models-interfaces/EmploeeAttribute";
+import EmploeeAttribute from "./models-interfaces/EmploeeAttribute";
 import sequelize from '../database/connection';
 
 interface EmploeeCreationAttributes extends Optional<EmploeeAttribute, "id"> {}

@@ -11,4 +11,4 @@ interface EmploeeAttribute {
   updatedAt: Date;
 }
 
-export { EmploeeAttribute };
+export default EmploeeAttribute ;
