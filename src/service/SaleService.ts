@@ -3,12 +3,17 @@ import { Emploee } from "../models/Emploee";
 import { Sale } from "../models/Sale";
 import { Vehicle } from "../models/Vehicle";
 import { validation } from "../types/validation";
+import ReserveVehicleService from "./ReserveVehicleService";
+import VehicleService from "./VehicleService";
 
 class SaleService {
   async createSale(sale: any): Promise<Sale>{
+    const { vehicleId } = sale;
     try {
       const saleCreated = await Sale.create(sale);
+      await VehicleService.sellVehicle(vehicleId);
       return saleCreated;
+
     } catch (error) {
       throw new Error();
     }
@@ -43,13 +48,24 @@ class SaleService {
     }
 
     if(vehicle.status === "vendido"){
-      return {isValid: false, errors: ["Veiculo com status vendido"]};
+      return {isValid: false, errors: ["Veiculo já foi vendido"]};
     }
 
     if(vehicle.status === "reservado"){
-      const reserva = {clientId: "58dd-d5dd-d4d4d-d4d4d5d"}
+      const reserve = await ReserveVehicleService.findReserveVehicle(vehicle.id, "aberta");
+      if(reserve){
+        const today = new Date();
+        if(today > reserve.reserveExpiration){
+          return {isValid: true, errors: ["Reserva expirada"]};
+        }
+
+        if(reserve.clientId !== client.id){
+          return {isValid: false, errors: ["O carro possui uma reserva válida com outro cliente"]};
+        }
+      }
     }
-    return null;
+
+    return {isValid: true, errors: []};
   }
 }
 

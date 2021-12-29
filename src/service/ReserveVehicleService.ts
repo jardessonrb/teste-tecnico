@@ -1,9 +1,16 @@
-// class ReserveVehicleService{
+import { ReserveVehicle } from "../models/ReserveVehicle";
 
-//   async findReserveByVehicleAndClient(vehicleId, clientId): Promise<void>{
+class ReserveVehicleService{
 
-//   }
+  async findReserveVehicle(vehicleId: string, status: string): Promise<ReserveVehicle>{
+    try {
+      const reserve = await ReserveVehicle.findOne({where: {vehicleId, status}});
+      return reserve;
+    } catch (error) {
+      throw new Error();
+    }
+  }
 
-// }
+}
 
-// export default new ReserveVehicleService();
+export default new ReserveVehicleService();

@@ -70,6 +70,30 @@ class VehicleService {
     }
   }
 
+  async sellVehicle(vehicleId: string): Promise<void> {
+    try {
+      await Vehicle.update({
+        status: "vendido"
+      }, {where: {id: vehicleId}});
+      return;
+
+    } catch (error) {
+      throw new Error();
+    }
+  }
+
+  async reserveVehicle(vehicleId: string): Promise<void> {
+    try {
+      await Vehicle.update({
+        status: "reservado"
+      }, {where: {id: vehicleId}});
+      return;
+
+    } catch (error) {
+      throw new Error();
+    }
+  }
+
 }
 
 export default new VehicleService();

@@ -32,17 +32,17 @@ class SaleController {
         return response.status(403).json(res);
       }
 
-      if(vehicle.status !== "disponivel"){
-        const res: ErrorValidation = {message: "Veiculo não disponivel para venda", type: "error validation", errors: []};
-        return response.status(403).json(res);
-      }
-
       const emploee =  await EmploeeService.findEmploeeById(emploeeId);
       if(!emploee){
         const res: ErrorValidation = {message: "Funcionario não encontrado", type: "error validation", errors: []};
         return response.status(403).json(res);
       }
 
+      const validationSale = await SaleService.validationSaleVehicle(vehicle, client);
+      if(!validationSale.isValid){
+        const res: ErrorValidation = {message: "Não foi possivel realizar a venda", type: "error validation", errors: validationSale.errors};
+        return response.status(403).json(res);
+      }
 
       const saleCreated = await SaleService.createSale({
         clientId,
@@ -53,6 +53,7 @@ class SaleController {
 
       const res: SuccessResponse = {message: "Venda realizada sucesso", type: "success", body: saleCreated};
       return response.status(201).json(res);
+
     } catch (error) {
       const res: ErrorServer = {message: "Erro no servidor", type: "error server", errors: []};
       return response.status(500).json(res);
