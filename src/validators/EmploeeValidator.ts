@@ -58,7 +58,7 @@ class EmploeeValidator{
 
   async updateValidation(emploee: any): Promise<validation>{
     const schemaValidation = Yup.object().shape({
-      emploeeId: Yup.string().required("O identificador do funcionário é obrigatorio").uuid("Identificador do usuário não valido"),
+      emploeeId: Yup.string().required("O identificador do funcionário é obrigatorio").uuid("Identificador do funcionario não valido"),
       name: Yup.string().required("O nome do funcionário é obrigatorio"),
       email: Yup.string().required("O email do funcionário é obrigatorio").email("O email do funcionario é invalido"),
       password: Yup.string().required("O senha do funcionário é obrigatorio").min(6, "A senha deve ter no minimo 6 caracteres"),

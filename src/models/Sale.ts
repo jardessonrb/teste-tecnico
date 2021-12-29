@@ -10,9 +10,9 @@ interface SaleCreationAttributes extends Optional<SaleAttribute, "id"> {}
 export class Sale extends Model<SaleAttribute, SaleCreationAttributes> implements SaleAttribute{
   id!: string;
   valueSale!: number;
-  idClient!: string;
-  idVehicle!: string;
-  idEmploee!: string;
+  clientId!: string;
+  vehicleId!: string;
+  emploeeId!: string;
 
   readonly createdAt!: Date;
   readonly updatedAt!: Date;
@@ -30,17 +30,17 @@ Sale.init({
     allowNull: false,
     field: "value_sale"
   },
-  idClient: {
+  clientId: {
     type: DataTypes.UUIDV4,
     defaultValue: DataTypes.UUIDV4,
     field: "id_client"
   },
-  idEmploee: {
+  emploeeId: {
     type: DataTypes.UUIDV4,
     defaultValue: DataTypes.UUIDV4,
     field: "id_emploee"
   },
-  idVehicle: {
+  vehicleId: {
     type: DataTypes.UUIDV4,
     defaultValue: DataTypes.UUIDV4,
     field: "id_vehicle"
@@ -56,11 +56,8 @@ Sale.init({
 }, {sequelize, tableName: "sales"});
 
 Sale.hasOne(Vehicle, {foreignKey:{name: "id_vehicle"}, keyType: DataTypes.UUIDV4});
-Vehicle.belongsTo(Sale);
 
 Sale.hasMany(Emploee, {foreignKey: {name: "id_emploee"}, keyType: DataTypes.UUIDV4});
-Emploee.belongsTo(Sale);
 
 Sale.hasMany(Client, {foreignKey: {name: "id_client"}, keyType: DataTypes.UUIDV4});
-Client.belongsTo(Sale);
 

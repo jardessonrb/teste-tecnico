@@ -14,17 +14,17 @@ module.exports = {
         allowNull: false,
         field: "value_sale"
       },
-      idClient: {
+      clientId: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUID,
         field: "id_client"
       },
-      idEmploee: {
+      emploeeId: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUID,
         field: "id_emploee"
       },
-      idVehicle: {
+      vehicleId: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUID,
         field: "id_vehicle"

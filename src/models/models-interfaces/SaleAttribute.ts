@@ -1,9 +1,9 @@
 interface SaleAttribute{
   id: string;
   valueSale: number;
-  idClient: string;
-  idVehicle: string;
-  idEmploee: string;
+  clientId: string;
+  vehicleId: string;
+  emploeeId: string;
   createdAt: Date;
   updatedAt: Date;
 }

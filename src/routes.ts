@@ -1,6 +1,7 @@
 import { Request, Response, Router } from 'express';
 import ClientController from './controllers/ClientController';
 import EmploeeController from './controllers/EmploeeController';
+import SaleController from './controllers/SaleController';
 import VehicleController from './controllers/VehicleController';
 
 const routes = Router();
@@ -27,5 +28,6 @@ routes.get("/client/:clientId", ClientController.findClient);
 routes.get("/client", ClientController.findClients);
 routes.put("/client/:clientId", ClientController.updateClient);
 
+routes.post("/sale", SaleController.createSale);
 
 export { routes };
