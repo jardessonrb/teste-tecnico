@@ -41,6 +41,7 @@ class SaleService {
     if(vehicle.status === "disponivel"){
       return {isValid: true, errors: []}
     }
+
     if(vehicle.status === "vendido"){
       return {isValid: false, errors: ["Veiculo com status vendido"]};
     }
