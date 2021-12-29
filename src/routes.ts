@@ -23,6 +23,9 @@ routes.delete("/vehicle/:vehicleId", VehicleController.deleteVehicle);
 routes.get("/vehicle/status/:status", VehicleController.findVehiclesByStatus);
 
 routes.post("/client", ClientController.createClient);
+routes.get("/client/:clientId", ClientController.findClient);
+routes.get("/client", ClientController.findClients);
+routes.put("/client/:clientId", ClientController.updateClient);
 
 
 export { routes };
