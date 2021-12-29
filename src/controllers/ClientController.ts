@@ -73,7 +73,7 @@ class ClientController{
     }
   }
 
-  async findClients(request: Request, response: Response): Promise<Response>{
+  async listClients(request: Request, response: Response): Promise<Response>{
     const { page = 1, limit = 10 } = request.query;
     const validation = validationPagination(Number(page), Number(limit));
 

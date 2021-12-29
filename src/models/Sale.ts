@@ -2,8 +2,8 @@ import { Optional, Model, DataTypes } from "sequelize";
 import SaleAttribute from "./models-interfaces/SaleAttribute";
 import sequelize from '../database/connection';
 import { Vehicle } from "./Vehicle";
-import { Emploee } from "./Emploee";
 import { Client } from "./Client";
+import { Emploee } from "./Emploee";
 
 interface SaleCreationAttributes extends Optional<SaleAttribute, "id"> {}
 
@@ -55,9 +55,6 @@ Sale.init({
   }
 }, {sequelize, tableName: "sales"});
 
-Sale.hasOne(Vehicle, {foreignKey:{name: "id_vehicle"}, keyType: DataTypes.UUIDV4});
-
-Sale.hasMany(Emploee, {foreignKey: {name: "id_emploee"}, keyType: DataTypes.UUIDV4});
-
-Sale.hasMany(Client, {foreignKey: {name: "id_client"}, keyType: DataTypes.UUIDV4});
-
+Sale.belongsTo(Vehicle, {foreignKey: "id_vehicle"})
+Sale.belongsTo(Client, {foreignKey: "id_client"})
+Sale.belongsTo(Emploee, {foreignKey: "id_emploee"})

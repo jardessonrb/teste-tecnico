@@ -25,9 +25,11 @@ routes.get("/vehicle/status/:status", VehicleController.findVehiclesByStatus);
 
 routes.post("/client", ClientController.createClient);
 routes.get("/client/:clientId", ClientController.findClient);
-routes.get("/client", ClientController.findClients);
+routes.get("/client", ClientController.listClients);
 routes.put("/client/:clientId", ClientController.updateClient);
 
 routes.post("/sale", SaleController.createSale);
+routes.get("/sale", SaleController.listSales);
+routes.get("/sale/emploee/:emploeeId", SaleController.findSalesByEmploee);
 
 export { routes };

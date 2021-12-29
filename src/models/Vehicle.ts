@@ -1,6 +1,7 @@
 import { Optional, Model, DataTypes } from "sequelize";
 import sequelize from "../database/connection";
 import VehicleAttribute from "./models-interfaces/VehicleAttribute";
+import { Sale } from "./Sale";
 
 interface VehicleCreationAttributes extends Optional<VehicleAttribute, "id"> {};
 
