@@ -1,4 +1,5 @@
 import { Request, Response, Router } from 'express';
+import ClientController from './controllers/ClientController';
 import EmploeeController from './controllers/EmploeeController';
 import VehicleController from './controllers/VehicleController';
 
@@ -20,6 +21,8 @@ routes.get("/vehicle/:vehicleId", VehicleController.findVehicleById);
 routes.put("/vehicle/:vehicleId", VehicleController.updateVehicle);
 routes.delete("/vehicle/:vehicleId", VehicleController.deleteVehicle);
 routes.get("/vehicle/status/:status", VehicleController.findVehiclesByStatus);
+
+routes.post("/client", ClientController.createClient);
 
 
 export { routes };
