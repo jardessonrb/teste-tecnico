@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { validation } from "../types/validation";
 import EmploeeValidator from "../validators/EmploeeValidator";
 import { ErrorServer, ErrorValidation, NotResult, SuccessResponse } from "../types/responses";
-import EmploeeService from "../service/EmploeeService";
+import EmploeeService from "../services/EmploeeService";
 import { cleanCPF } from "../validators/validations/validationCPF";
 import { validationPagination } from "../validators/validations/validationPagination";
 import EmploeeView from "../views/EmploeeView";

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import ClientService from "../service/ClientService";
+import ClientService from "../services/ClientService";
 import { ErrorServer, ErrorValidation, SuccessResponse } from "../types/responses";
 import ClientValidator from "../validators/ClientValidator";
 import { cleanCPF } from "../validators/validations/validationCPF";

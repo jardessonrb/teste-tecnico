@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import ClientService from "../service/ClientService";
-import EmploeeService from "../service/EmploeeService";
-import ReserveVehicleService from "../service/ReserveVehicleService";
-import VehicleService from "../service/VehicleService";
+import ClientService from "../services/ClientService";
+import EmploeeService from "../services/EmploeeService";
+import ReserveVehicleService from "../services/ReserveVehicleService";
+import VehicleService from "../services/VehicleService";
 import { ErrorServer, ErrorValidation, SuccessResponse } from "../types/responses";
 import { reserveVehicleStatus, vehicleStatus } from "../types/status";
 import EmploeeValidator from "../validators/EmploeeValidator";

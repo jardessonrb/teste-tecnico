@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import VehicleService from "../service/VehicleService";
+import VehicleService from "../services/VehicleService";
 import { ErrorServer, ErrorValidation, NotResult, SuccessResponse } from "../types/responses";
 import { vehicleStatus } from "../types/status";
 import { validationPagination } from "../validators/validations/validationPagination";
