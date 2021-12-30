@@ -1,10 +1,11 @@
-import { Request, response, Response } from "express";
+import { Request, Response } from "express";
 import { validation } from "../types/validation";
 import EmploeeValidator from "../validators/EmploeeValidator";
 import { ErrorServer, ErrorValidation, NotResult, SuccessResponse } from "../types/responses";
 import EmploeeService from "../service/EmploeeService";
 import { cleanCPF } from "../validators/validations/validationCPF";
 import { validationPagination } from "../validators/validations/validationPagination";
+import EmploeeView from "../views/EmploeeView";
 
 class EmploeeController{
   async createEmploee(request: Request, response: Response): Promise<Response> {
@@ -41,8 +42,11 @@ class EmploeeController{
         biography,
         offCompany: false,
         type
-      })
-      const res: SuccessResponse = {message: "Funcionario criado com sucesso", type: "success", body: emploeeCreated};
+      });
+
+      const emploeeReturned = EmploeeView.emploeeView(emploeeCreated);
+
+      const res: SuccessResponse = {message: "Funcionario criado com sucesso", type: "success", body: emploeeReturned};
       return response.status(201).json(res);
 
     } catch (error) {
