@@ -82,7 +82,15 @@ class EmploeeService{
     } catch (error) {
       throw new Error();
     }
+  }
 
+  async findEmploeeByEmailAndPassword(email: string, password: string): Promise<Emploee>{
+    try {
+      const emploee = await Emploee.findOne({where: {email, password}});
+      return emploee;
+    } catch (error) {
+      throw new Error();
+    }
   }
 }
 

@@ -136,6 +136,30 @@ class EmploeeController{
     }
   }
 
+  async login(request: Request, response: Response): Promise<Response> {
+    const { email, password } = request.body;
+    const validation = await EmploeeValidator.loginValidation({email, password});
+    if(!validation.isValid){
+      const res: ErrorValidation = {message: "Campos inválidos", type: "error validation", errors: validation.errors};
+      return response.status(403).json(res);
+    }
+
+    try {
+      const emploee = await EmploeeService.findEmploeeByEmailAndPassword(email, password);
+      if(!emploee){
+        const res: ErrorValidation = {message: "Login não permitido", type: "error validation", errors: []};
+        return response.status(403).json(res);
+      }
+
+      const res: SuccessResponse = {message: "Funcionário logado com sucesso", type: "success", body: emploee};
+      return response.status(200).json(res);
+
+    } catch (error) {
+      const res: ErrorServer = {message: "Erro no servidor", type: "error server", errors: []};
+      return response.status(500).json(res);
+    }
+  }
+
 }
 
 export default new EmploeeController();

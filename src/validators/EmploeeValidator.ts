@@ -75,6 +75,23 @@ class EmploeeValidator{
       return {isValid: false, errors: error.errors};
     }
   }
+
+  async loginValidation(login: any): Promise<validation>{
+    const schemaValidation = Yup.object().shape({
+      email: Yup.string().required("O email do funcionário é obrigatorio").email("O email do funcionario é invalido"),
+      password: Yup.string().required("O senha do funcionário é obrigatorio").min(6, "A senha deve ter no minimo 6 caracteres")
+    });
+
+    try {
+      await schemaValidation.validate(login, {
+        abortEarly: false
+      });
+
+      return {isValid: true, errors: []};
+    } catch (error) {
+      return {isValid: false, errors: error.errors};
+    }
+  }
 }
 
 export default new EmploeeValidator();
