@@ -9,6 +9,7 @@ import EmploeeValidator from "../validators/EmploeeValidator";
 import ReserveVehicleValidator from "../validators/ReserveVehicleValidator";
 import experationReserve from "../validators/validations/validationDateReserve";
 import { validationPagination } from "../validators/validations/validationPagination";
+import ReserveVehicleView from "../views/ReserveVehicleView";
 
 class ReserveVehicleController{
   async createReserveVehicle(request: Request, response: Response): Promise<Response> {
@@ -50,7 +51,7 @@ class ReserveVehicleController{
           return response.status(403).json(res);
       }
 
-      const reserve = await ReserveVehicleService.createReserveVehicle({
+      const reserveCreated = await ReserveVehicleService.createReserveVehicle({
         valueReserve,
         clientId,
         emploeeId,
@@ -58,8 +59,8 @@ class ReserveVehicleController{
         reserveExpiration: experationReserve(reserveDays),
         status: reserveVehicleStatus.OPEN
       })
-
-      const res: SuccessResponse = {message: "Reserva criada com sucesso", type: "success", body: reserve};
+      const reserveReturned = ReserveVehicleView.reserveVehicleView(reserveCreated);
+      const res: SuccessResponse = {message: "Reserva criada com sucesso", type: "success", body: reserveReturned};
       return response.status(201).json(res);
 
     } catch (error) {
@@ -87,7 +88,8 @@ class ReserveVehicleController{
       return response.status(403).json(res);
       }
       const reserves = await ReserveVehicleService.findReservesByEmploee(emploeeId, pagination.page, pagination.limit);
-      const res: SuccessResponse = {message: `Reservas realizadas pelo funcionario ${emploee.name}`, type: "success", body: reserves};
+      const reservesReturned = ReserveVehicleView.reservesByJoinView(reserves);
+      const res: SuccessResponse = {message: `Reservas realizadas pelo funcionario ${emploee.name}`, type: "success", body: reservesReturned};
       return response.status(200).json(res);
 
     } catch (error) {
@@ -102,7 +104,8 @@ class ReserveVehicleController{
 
     try {
       const reserves = await ReserveVehicleService.findAllReserves(validation.page, validation.limit);
-      const res: SuccessResponse = {message: "Listagem de reservas", type: "success", body: reserves};
+      const reservesReturned = ReserveVehicleView.reservesByJoinView(reserves);
+      const res: SuccessResponse = {message: "Listagem de reservas", type: "success", body: reservesReturned};
       return response.status(200).json(res);
 
     } catch (error) {
@@ -125,6 +128,11 @@ class ReserveVehicleController{
         const res: ErrorValidation = {message: "Nenhuma reserva encontrada", type: "error validation", errors: []};
         return response.status(403).json(res);
       }
+      if(reserve.status === reserveVehicleStatus.CLOSED){
+        const res: ErrorValidation = {message: "Essa reserva já está fechada", type: "error validation", errors: []};
+        return response.status(403).json(res);
+      }
+
       await ReserveVehicleService.closeReserve(reserveId, reserve.vehicleId);
       const res: SuccessResponse = {message: "Reserva fechada com sucesso", type: "success"};
       return response.status(200).json(res);
