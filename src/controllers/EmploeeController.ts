@@ -61,7 +61,8 @@ class EmploeeController{
 
     try {
       const emploees = await EmploeeService.findAllEmploees(Number(pagination.page), Number(pagination.limit));
-      const res: SuccessResponse = {message: "Lista de funcionarios pagina "+page, type: "success", body: emploees};
+      const emploeesReturned = EmploeeView.emploeesView(emploees);
+      const res: SuccessResponse = {message: "Lista de funcionarios pagina "+page, type: "success", body: emploeesReturned};
       return response.status(200).json(res);
 
     } catch (error) {
@@ -82,7 +83,8 @@ class EmploeeController{
       const cpfClean = cleanCPF(cpf);
       const emploee = await EmploeeService.findEmploeeByCPF(cpfClean);
       if(emploee){
-        const res: SuccessResponse = {message: "Funcionário buscado por CPF", type: "success", body: emploee};
+        const emploeeReturned = EmploeeView.emploeeView(emploee);
+        const res: SuccessResponse = {message: "Funcionário buscado por CPF", type: "success", body: emploeeReturned};
         return response.status(200).json(res);
       }
       const res: NotResult = {message: "Nenhum funcionário corresponde a sua busca", type: "not result"};
@@ -155,7 +157,8 @@ class EmploeeController{
         return response.status(403).json(res);
       }
 
-      const res: SuccessResponse = {message: "Funcionário logado com sucesso", type: "success", body: emploee};
+      const emploeeReturned = EmploeeView.emploeeView(emploee);
+      const res: SuccessResponse = {message: "Funcionário logado com sucesso", type: "success", body: emploeeReturned};
       return response.status(200).json(res);
 
     } catch (error) {

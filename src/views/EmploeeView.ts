@@ -1,5 +1,6 @@
 import { Emploee } from "../models/Emploee";
 import { EmploeeViewtype } from "../types/view/EmploeeViewTypes";
+import { formatDate } from "./Utils";
 
 class EmploeeView{
   emploeeView(emploee: Emploee): EmploeeViewtype{
@@ -7,11 +8,12 @@ class EmploeeView{
       id: emploee.id,
       name: emploee.name,
       avatar: emploee.avatar,
-      type: emploee.type
+      type: emploee.type,
+      createdAt: formatDate(emploee.createdAt)
     }
   }
 
-  emploeesView(emploees: Emploee[]){
+  emploeesView(emploees: Emploee[]): EmploeeViewtype[]{
     const emploeesView = emploees.map((emploee) => this.emploeeView(emploee));
 
     return emploeesView;
