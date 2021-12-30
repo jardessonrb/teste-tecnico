@@ -1,6 +1,9 @@
 import { Model, Optional, DataTypes} from "sequelize";
 import ReserveVehicleAttribute from "./models-interfaces/ReserveVehicleAttribute";
 import sequelize from '../database/connection';
+import { Vehicle } from "./Vehicle";
+import { Client } from "./Client";
+import { Emploee } from "./Emploee";
 
 interface ReserveVehicleCreationAttributes extends Optional<ReserveVehicleAttribute, "id"> {}
 
@@ -63,3 +66,7 @@ ReserveVehicle.init({
     allowNull: false
   }
 }, {sequelize, tableName: "reserve_vehicles"});
+
+ReserveVehicle.belongsTo(Vehicle, {foreignKey: "id_vehicle"})
+ReserveVehicle.belongsTo(Client, {foreignKey: "id_client"})
+ReserveVehicle.belongsTo(Emploee, {foreignKey: "id_emploee"})

@@ -34,5 +34,6 @@ routes.get("/sale", SaleController.listSales);
 routes.get("/sale/emploee/:emploeeId", SaleController.findSalesByEmploee);
 
 routes.post("/reserve", ReserveVehicleController.createReserveVehicle);
+routes.get("/reserve/emploee/:emploeeId", ReserveVehicleController.listReservesVehiclesByEmploee);
 
 export { routes };

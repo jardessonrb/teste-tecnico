@@ -5,8 +5,10 @@ import ReserveVehicleService from "../service/ReserveVehicleService";
 import VehicleService from "../service/VehicleService";
 import { ErrorServer, ErrorValidation, SuccessResponse } from "../types/responses";
 import { reserveVehicleStatus, vehicleStatus } from "../types/status";
+import EmploeeValidator from "../validators/EmploeeValidator";
 import ReserveVehicleValidator from "../validators/ReserveVehicleValidator";
 import experationReserve from "../validators/validations/validationDateReserve";
+import { validationPagination } from "../validators/validations/validationPagination";
 
 class ReserveVehicleController{
   async createReserveVehicle(request: Request, response: Response): Promise<Response> {
@@ -59,6 +61,34 @@ class ReserveVehicleController{
 
       const res: SuccessResponse = {message: "Reserva criada com sucesso", type: "success", body: reserve};
       return response.status(201).json(res);
+
+    } catch (error) {
+      const res: ErrorServer = {message: "Erro no servidor", type: "error server", errors: []};
+      return response.status(500).json(res);
+    }
+  }
+
+  async listReservesVehiclesByEmploee(request: Request, response: Response): Promise<Response> {
+    const { emploeeId } = request.params;
+    const { page = 1, limit = 10} = request.query;
+    const pagination = validationPagination(Number(page), Number(limit));
+    const validation = await EmploeeValidator.idValidation(emploeeId);
+
+    if(!validation.isValid){
+      const res: ErrorValidation = {message: "Identificador de funcionario não valido", type: "error validation", errors: validation.errors};
+      return response.status(403).json(res);
+    }
+
+
+    try {
+      const emploee = await EmploeeService.findEmploeeById(emploeeId);
+      if(!emploee){
+        const res: ErrorValidation = {message: "Duncionario não encontrado", type: "error validation", errors: []};
+      return response.status(403).json(res);
+      }
+      const reserves = await ReserveVehicleService.findReservesByEmploee(emploeeId, pagination.page, pagination.limit);
+      const res: SuccessResponse = {message: `Reservas realizadas pelo funcionario ${emploee.name}`, type: "success", body: reserves};
+      return response.status(200).json(res);
 
     } catch (error) {
       const res: ErrorServer = {message: "Erro no servidor", type: "error server", errors: []};
