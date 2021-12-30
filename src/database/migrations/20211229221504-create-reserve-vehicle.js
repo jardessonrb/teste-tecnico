@@ -7,7 +7,7 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUID,
         primaryKey: true,
-        field: "id_sale"
+        field: "id_reserve"
       },
       valueReserve: {
         type: Sequelize.FLOAT,

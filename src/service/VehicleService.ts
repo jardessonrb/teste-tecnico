@@ -1,4 +1,5 @@
 import { Vehicle } from "../models/Vehicle";
+import { vehicleStatus } from "../types/status";
 
 class VehicleService {
   async createVehicle(vehicle): Promise<Vehicle>{
@@ -85,7 +86,7 @@ class VehicleService {
   async reserveVehicle(vehicleId: string): Promise<void> {
     try {
       await Vehicle.update({
-        status: "reservado"
+        status: vehicleStatus.RESERVED
       }, {where: {id: vehicleId}});
       return;
 

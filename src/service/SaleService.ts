@@ -2,6 +2,7 @@ import { Client } from "../models/Client";
 import { Emploee } from "../models/Emploee";
 import { Sale } from "../models/Sale";
 import { Vehicle } from "../models/Vehicle";
+import { reserveVehicleStatus, vehicleStatus } from "../types/status";
 import { validation } from "../types/validation";
 import ReserveVehicleService from "./ReserveVehicleService";
 import VehicleService from "./VehicleService";
@@ -43,16 +44,16 @@ class SaleService {
   }
 
   async validationSaleVehicle(vehicle: Vehicle, client: Client): Promise<validation>{
-    if(vehicle.status === "disponivel"){
+    if(vehicle.status === vehicleStatus.AVAILABLE){
       return {isValid: true, errors: []}
     }
 
-    if(vehicle.status === "vendido"){
+    if(vehicle.status === vehicleStatus.SOLD){
       return {isValid: false, errors: ["Veiculo já foi vendido"]};
     }
 
-    if(vehicle.status === "reservado"){
-      const reserve = await ReserveVehicleService.findReserveVehicle(vehicle.id, "aberta");
+    if(vehicle.status === vehicleStatus.RESERVED){
+      const reserve = await ReserveVehicleService.findReserveVehicle(vehicle.id, reserveVehicleStatus.OPEN);
       if(reserve){
         const today = new Date();
         if(today > reserve.reserveExpiration){

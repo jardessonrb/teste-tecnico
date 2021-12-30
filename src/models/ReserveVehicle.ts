@@ -19,10 +19,10 @@ export class ReserveVehicle extends Model<ReserveVehicleAttribute, ReserveVehicl
 
 ReserveVehicle.init({
   id: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUID,
+    type: DataTypes.UUIDV4,
+    defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
-    field: "id_sale"
+    field: "id_reserve"
   },
   valueReserve: {
     type: DataTypes.FLOAT,
@@ -30,18 +30,18 @@ ReserveVehicle.init({
     field: "value_reserve"
   },
   clientId: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUID,
+    type: DataTypes.UUIDV4,
+    defaultValue: DataTypes.UUIDV4,
     field: "id_client"
   },
   emploeeId: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUID,
+    type: DataTypes.UUIDV4,
+    defaultValue: DataTypes.UUIDV4,
     field: "id_emploee"
   },
   vehicleId: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUID,
+    type: DataTypes.UUIDV4,
+    defaultValue: DataTypes.UUIDV4,
     field: "id_vehicle"
   },
   reserveExpiration: {
@@ -62,4 +62,4 @@ ReserveVehicle.init({
     defaultValue: Date.now(),
     allowNull: false
   }
-}, {sequelize, tableName: "reserve-vehicles"});
+}, {sequelize, tableName: "reserve_vehicles"});

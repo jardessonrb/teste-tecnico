@@ -1,6 +1,7 @@
 import { Request, Response, Router } from 'express';
 import ClientController from './controllers/ClientController';
 import EmploeeController from './controllers/EmploeeController';
+import ReserveVehicleController from './controllers/ReserveVehicleController';
 import SaleController from './controllers/SaleController';
 import VehicleController from './controllers/VehicleController';
 
@@ -31,5 +32,7 @@ routes.put("/client/:clientId", ClientController.updateClient);
 routes.post("/sale", SaleController.createSale);
 routes.get("/sale", SaleController.listSales);
 routes.get("/sale/emploee/:emploeeId", SaleController.findSalesByEmploee);
+
+routes.post("/reserve", ReserveVehicleController.createReserveVehicle);
 
 export { routes };
