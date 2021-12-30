@@ -7,6 +7,7 @@ import { ErrorServer, ErrorValidation, SuccessResponse } from "../types/response
 import EmploeeValidator from "../validators/EmploeeValidator";
 import SaleValidator from "../validators/SaleValidator";
 import { validationPagination } from "../validators/validations/validationPagination";
+import SaleView from "../views/SaleView";
 
 
 class SaleController {
@@ -51,7 +52,8 @@ class SaleController {
         valueSale: vehicle.salePrice
       });
 
-      const res: SuccessResponse = {message: "Venda realizada sucesso", type: "success", body: saleCreated};
+      const saleReturned = SaleView.saleView(saleCreated);
+      const res: SuccessResponse = {message: "Venda realizada sucesso", type: "success", body: saleReturned};
       return response.status(201).json(res);
 
     } catch (error) {
@@ -67,7 +69,8 @@ class SaleController {
 
     try {
       const sales = await SaleService.findAllSales(validation.page, validation.limit);
-      const res: SuccessResponse = {message: "Listagem de Vendas", type: "success", body: sales};
+      const salesReturned = SaleView.salesByJoinView(sales);
+      const res: SuccessResponse = {message: "Listagem de Vendas", type: "success", body: salesReturned};
       return response.status(200).json(res);
 
     } catch (error) {
@@ -94,7 +97,8 @@ class SaleController {
       }
 
       const sales = await SaleService.findSalesByEmploee(emploeeId, pagination.page, pagination.limit);
-      const res: SuccessResponse = {message: `Vendas realizadas pelo funcionario ${emploee.name}`, type: "success", body: sales};
+      const salesReturned = SaleView.salesByJoinView(sales);
+      const res: SuccessResponse = {message: `Vendas realizadas pelo funcionario ${emploee.name}`, type: "success", body: salesReturned};
       return response.status(200).json(res);
 
     } catch (error) {

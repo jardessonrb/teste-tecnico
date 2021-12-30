@@ -21,6 +21,15 @@ class ClientView {
     return clientsReturned;
   }
 
+  clientSimplified(client: Client){
+    return {
+      id: client.id,
+      name: client.name,
+      cpf: client.cpf,
+      email: client.email
+    }
+  }
+
 }
 
 export default new ClientView();

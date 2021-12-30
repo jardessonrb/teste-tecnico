@@ -19,10 +19,11 @@ class EmploeeView{
     return emploeesView;
   }
 
-  emploeesimplified(emploee: Emploee){
+  emploeeSimplified(emploee: Emploee){
     return {
       id: emploee.id,
-      name: emploee.name
+      name: emploee.name,
+      type: emploee.type
     }
   }
 

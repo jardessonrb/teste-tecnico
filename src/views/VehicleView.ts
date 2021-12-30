@@ -1,5 +1,5 @@
 import { Vehicle } from "../models/Vehicle";
-import { formatDate } from "./Utils";
+import { formatDate, formatPrice } from "./Utils";
 
 class VehicleView {
 
@@ -13,8 +13,8 @@ class VehicleView {
       color: vehicle.color,
       chassis: vehicle.chassis,
       status: vehicle.status,
-      purchasePrice: vehicle.purchasePrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
-      salePrince: vehicle.salePrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
+      purchasePrice: formatPrice(vehicle.purchasePrice),
+      salePrince: formatPrice(vehicle.salePrice),
       createdAt: formatDate(vehicle.createdAt)
     }
   }
@@ -30,7 +30,7 @@ class VehicleView {
       id: vehicle.id,
       model: vehicle.model,
       brand: vehicle.brand,
-      salePrice: vehicle.salePrice
+      salePrice: formatPrice(vehicle.salePrice)
     }
   }
 }
