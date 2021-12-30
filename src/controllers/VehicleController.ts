@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
 import VehicleService from "../service/VehicleService";
 import { ErrorServer, ErrorValidation, NotResult, SuccessResponse } from "../types/responses";
+import { vehicleStatus } from "../types/status";
 import { validationPagination } from "../validators/validations/validationPagination";
 import VehicleValidator from "../validators/VehicleValidator";
+import VehicleView from "../views/VehicleView";
 
 class VehicleController {
   async createVehicle(request: Request, response: Response): Promise<Response> {
@@ -30,10 +32,11 @@ class VehicleController {
         purchasePrice: parseFloat(purchasePrice),
         salePrice: parseFloat(salePrice),
         type,
-        status: "disponivel"
+        status: vehicleStatus.AVAILABLE
       });
 
-      const res: SuccessResponse = {message: "Funcionario criado com sucesso", type: "success", body: vehicleCreated};
+      const vehcileReturned = VehicleView.vehicleView(vehicleCreated);
+      const res: SuccessResponse = {message: "Funcionario criado com sucesso", type: "success", body: vehcileReturned};
       return response.status(201).json(res);
     } catch (error) {
       const res: ErrorServer = {message: "Erro no servidor", type: "error server", errors: []};
@@ -47,7 +50,8 @@ class VehicleController {
 
     try {
       const vehicles = await VehicleService.findAllVehicles(Number(pagination.page), Number(pagination.limit));
-      const res: SuccessResponse = {message: "Lista de carros pagina "+page, type: "success", body: vehicles};
+      const vehiclesReturned = VehicleView.vehiclesView(vehicles);
+      const res: SuccessResponse = {message: "Lista de carros pagina "+page, type: "success", body: vehiclesReturned};
       return response.status(200).json(res);
 
     } catch (error) {
@@ -67,7 +71,8 @@ class VehicleController {
     try {
       const vehicle = await VehicleService.findVehicleById(vehicleId);
       if(vehicle){
-        const res: SuccessResponse = {message: "Veiculo buscado", type: "success", body: vehicle};
+        const vehcileReturned = VehicleView.vehicleView(vehicle);
+        const res: SuccessResponse = {message: "Veiculo buscado", type: "success", body: vehcileReturned};
         return response.status(200).json(res);
       }
       const res: NotResult = {message: "Nenhum veiculo corresponde a sua busca", type: "not result"};
@@ -105,8 +110,8 @@ class VehicleController {
     const { vehicleId } = request.params;
 
     try {
-      const vehicle = VehicleService.deleteVehicle(vehicleId);
-      const res: SuccessResponse = {message: "Veiculo excluído com sucesso", type: "success", body: vehicle};
+      await VehicleService.deleteVehicle(vehicleId);
+      const res: SuccessResponse = {message: "Veiculo excluído com sucesso", type: "success"};
       return response.status(202).json(res);
 
     } catch (error) {
@@ -130,7 +135,8 @@ class VehicleController {
 
     try {
       const vehicles = await VehicleService.findVehiclesByStatus(status, validation.page, validation.limit);
-      const res: SuccessResponse = {message: "Lista de carros pagina "+page, type: "success", body: vehicles};
+      const vehiclesReturned = VehicleView.vehiclesView(vehicles);
+      const res: SuccessResponse = {message: "Lista de carros pagina "+page, type: "success", body: vehiclesReturned};
       return response.status(200).json(res);
 
     } catch (error) {
