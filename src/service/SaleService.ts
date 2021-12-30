@@ -12,7 +12,7 @@ class SaleService {
     const { vehicleId } = sale;
     try {
       const saleCreated = await Sale.create(sale);
-      await VehicleService.sellVehicle(vehicleId);
+      await VehicleService.updateStatusVehicle(vehicleId, vehicleStatus.SOLD);
       return saleCreated;
 
     } catch (error) {
