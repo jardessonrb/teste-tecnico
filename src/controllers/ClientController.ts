@@ -5,6 +5,7 @@ import ClientValidator from "../validators/ClientValidator";
 import { cleanCPF } from "../validators/validations/validationCPF";
 import { cleanFoneClient } from "../validators/validations/validationFone";
 import { validationPagination } from "../validators/validations/validationPagination";
+import ClientView from "../views/ClientView";
 
 class ClientController{
 
@@ -44,7 +45,8 @@ class ClientController{
         avatar
       });
 
-      const res: SuccessResponse = {message: "Cliente criado com sucesso", type: "success", body: clientCreated};
+      const clientReturned = ClientView.clientView(clientCreated);
+      const res: SuccessResponse = {message: "Cliente criado com sucesso", type: "success", body: clientReturned};
       return response.status(201).json(res);
 
     } catch (error) {
@@ -64,7 +66,8 @@ class ClientController{
 
     try {
       const client = await ClientService.findClientById(clientId);
-      const res: SuccessResponse = {message: "Cliente buscado", type: "success", body: client};
+      const clientReturned = ClientView.clientView(client);
+      const res: SuccessResponse = {message: "Cliente buscado", type: "success", body: clientReturned};
       return response.status(200).json(res);
 
     } catch (error) {
@@ -79,7 +82,8 @@ class ClientController{
 
     try {
       const clients = await ClientService.findAllClients(validation.page, validation.limit);
-      const res: SuccessResponse = {message: "Cliente buscados pagina "+ validation.page, type: "success", body: clients};
+      const clientsReturned = ClientView.clientsView(clients);
+      const res: SuccessResponse = {message: "Cliente buscados pagina "+ validation.page, type: "success", body: clientsReturned};
       return response.status(200).json(res);
 
     } catch (error) {
