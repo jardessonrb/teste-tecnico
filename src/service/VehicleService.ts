@@ -71,10 +71,10 @@ class VehicleService {
     }
   }
 
-  async sellVehicle(vehicleId: string): Promise<void> {
+  async updateStatusVehicle(vehicleId: string, status: string): Promise<void> {
     try {
       await Vehicle.update({
-        status: "vendido"
+        status
       }, {where: {id: vehicleId}});
       return;
 
@@ -83,17 +83,6 @@ class VehicleService {
     }
   }
 
-  async reserveVehicle(vehicleId: string): Promise<void> {
-    try {
-      await Vehicle.update({
-        status: vehicleStatus.RESERVED
-      }, {where: {id: vehicleId}});
-      return;
-
-    } catch (error) {
-      throw new Error();
-    }
-  }
 
 }
 

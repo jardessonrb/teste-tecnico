@@ -67,8 +67,8 @@ class SaleController {
 
     try {
       const sales = await SaleService.findAllSales(validation.page, validation.limit);
-      const res: SuccessResponse = {message: "Venda realizada sucesso", type: "success", body: sales};
-      return response.status(201).json(res);
+      const res: SuccessResponse = {message: "Listagem de Vendas", type: "success", body: sales};
+      return response.status(200).json(res);
 
     } catch (error) {
       const res: ErrorServer = {message: "Erro no servidor", type: "error server", errors: []};

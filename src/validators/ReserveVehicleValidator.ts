@@ -20,8 +20,21 @@ class ReserveVehicleValidator{
     } catch (error) {
       return {isValid: false, errors: error.errors};
     }
+  }
 
-    return null;
+  async idValidation(id: string): Promise<validation>{
+    const schemaValidation = Yup.object().shape({
+      id: Yup.string().required("O identidicador da reserva é obrigatorio").uuid("Identificador invalido")
+    });
+
+    try {
+      await schemaValidation.validate({id}, {
+        abortEarly: false
+      });
+      return {isValid: true, errors: []};
+    } catch (error) {
+      return {isValid: false, errors: error.errors};
+    }
   }
 }
 

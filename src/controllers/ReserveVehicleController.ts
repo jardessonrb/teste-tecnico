@@ -95,6 +95,45 @@ class ReserveVehicleController{
       return response.status(500).json(res);
     }
   }
+
+  async listReserves(request: Request, response: Response): Promise<Response> {
+    const { page = 1, limit = 10 } = request.query;
+    const validation = validationPagination(Number(page), Number(limit));
+
+    try {
+      const reserves = await ReserveVehicleService.findAllReserves(validation.page, validation.limit);
+      const res: SuccessResponse = {message: "Listagem de reservas", type: "success", body: reserves};
+      return response.status(200).json(res);
+
+    } catch (error) {
+      const res: ErrorServer = {message: "Erro no servidor", type: "error server", errors: []};
+      return response.status(500).json(res);
+    }
+  }
+
+  async closeReserve(request: Request, response: Response): Promise<Response> {
+    const { reserveId } = request.params;
+    const validation = await ReserveVehicleValidator.idValidation(reserveId);
+    if(!validation.isValid){
+      const res: ErrorValidation = {message: "Identificador da reserva não valido", type: "error validation", errors: validation.errors};
+      return response.status(403).json(res);
+    }
+
+    try {
+      const reserve = await ReserveVehicleService.findReserveById(reserveId);
+      if(!reserve){
+        const res: ErrorValidation = {message: "Nenhuma reserva encontrada", type: "error validation", errors: []};
+        return response.status(403).json(res);
+      }
+      await ReserveVehicleService.closeReserve(reserveId, reserve.vehicleId);
+      const res: SuccessResponse = {message: "Reserva fechada com sucesso", type: "success"};
+      return response.status(200).json(res);
+
+    } catch (error) {
+
+    }
+
+  }
 }
 
 export default new ReserveVehicleController();
