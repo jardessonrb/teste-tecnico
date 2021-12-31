@@ -4,7 +4,7 @@
 Criação de um sistema para gerenciamento de uma loja que realiza venda de veículos.
 
 ### Sobre o projeto
-O projeto utilizou ![Typescript](https://www.typescriptlang.org/) com o ![Sequelize](https://sequelize.org/v7/), e todo o versionamento do banco de dados ![Postgres](https://www.postgresql.org/) foi feito por meio de migrations do ![Sequelize](https://sequelize.org/v7/). Todas as listagens possuem paginação de resultados. Todas as ações dos endpoints possuem validação de campos. Foi criada uma camada View para formatação de dados para o usuario final, como pedido o formato de data DD/MM/yyy. As demais camadas, como a camada Controller que recebe as requisições e centraliza as ações das demais camadas. Camada de Validators, para as validações dos campos que são passados, e camada de Services que faz a ponte entre a aplicação e o banco de dados junto com os Models que são as entidades da aplicação.
+O projeto utilizou ![Typescript](https://www.typescriptlang.org/) com o ![Sequelize](https://sequelize.org/v7/), e todo o versionamento do banco de dados ![Postgres](https://www.postgresql.org/) foi feito por meio de migrations do ![Sequelize](https://sequelize.org/v7/). Todas as listagens possuem paginação de resultados. Todas as ações dos endpoints possuem validação de campos. Foi criada uma camada View para formatação de dados para o usuario final, como pedido o formato de data DD/MM/yyy. As demais camadas, como a camada Controller que recebe as requisições e centraliza as ações das demais camadas. Camada de Validators, para as validações dos campos que são passados, e camada de Services que faz a ponte entre a aplicação e o banco de dados junto com os Models que são as entidades da aplicação. Adcionado tambem um auth, com uma classe Auth que possui dois métodos, um para validar o acesso a rota, como middleware de autenticação, e um metodo que retona um token quando é feito o login na aplicação, esse mesmo token é passado em rotas privadas para autenticação do funcionario.
 
 ### Funcionalidades implementadas
 - [x] CRUD de funcionarios
@@ -36,6 +36,7 @@ O projeto utilizou ![Typescript](https://www.typescriptlang.org/) com o ![Sequel
   - [x] Listar as reservas, com paginação de resultados, que traz consigo o clinte, o funcionario e o veiculo da reserva
   - [x] Buscar as reservas pelo  funcionario que a cadastrou, com paginação que também traz consigo o clinte, o funcionario e o veiculo da reserva
   - [x] Fecha reserva que estive em aberto, pelo ID passado
+- [x] Autenticação via token, em algumas rotas protegidas, como deletar um veiculo, ou deletar funcionário.
 ### Tecnologias Usadas
 * ![Typescript](https://www.typescriptlang.org/)
 * ![Sequelize](https://sequelize.org/v7/)
