@@ -6,6 +6,8 @@ import EmploeeService from "../services/EmploeeService";
 import { cleanCPF } from "../validators/validations/validationCPF";
 import { validationPagination } from "../validators/validations/validationPagination";
 import EmploeeView from "../views/EmploeeView";
+import Auth from "../auth/Auth";
+import { emploeeType } from "../types/status";
 
 class EmploeeController{
   async createEmploee(request: Request, response: Response): Promise<Response> {
@@ -158,7 +160,8 @@ class EmploeeController{
       }
 
       const emploeeReturned = EmploeeView.emploeeView(emploee);
-      const res: SuccessResponse = {message: "Funcionário logado com sucesso", type: "success", body: emploeeReturned};
+      const token = Auth.token(emploeeReturned.id, emploeeReturned.type);
+      const res: SuccessResponse = {message: "Funcionário logado com sucesso", type: "success", body: {emploeeReturned, token}};
       return response.status(200).json(res);
 
     } catch (error) {

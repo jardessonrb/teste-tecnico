@@ -1,4 +1,5 @@
 import { Request, Response, Router } from 'express';
+import Auth from './auth/Auth';
 import ClientController from './controllers/ClientController';
 import EmploeeController from './controllers/EmploeeController';
 import ReserveVehicleController from './controllers/ReserveVehicleController';
@@ -11,18 +12,18 @@ routes.get("/", (request: Request, response: Response) => {
   return response.send("<h1 align=\"center\">Bem-Vindo(a) CARS</h1>");
 });
 
-routes.post("/emploee", EmploeeController.createEmploee);
-routes.get("/emploee", EmploeeController.listEmploees);
+routes.post("/emploee", Auth.access, EmploeeController.createEmploee);
+routes.get("/emploee", Auth.access, EmploeeController.listEmploees);
 routes.get("/emploee/login", EmploeeController.login);
 routes.get("/emploee/:cpf", EmploeeController.findEmploeeByCPF);
-routes.put("/emploee/:emploeeId", EmploeeController.updateEmploee);
-routes.delete("/emploee/:emploeeId", EmploeeController.disconnectEmploeeCompany);
+routes.put("/emploee/:emploeeId",  Auth.access, EmploeeController.updateEmploee);
+routes.delete("/emploee/:emploeeId", Auth.access, EmploeeController.disconnectEmploeeCompany);
 
 routes.post("/vehicle", VehicleController.createVehicle);
 routes.get("/vehicle", VehicleController.listVehicles);
 routes.get("/vehicle/:vehicleId", VehicleController.findVehicleById);
-routes.put("/vehicle/:vehicleId", VehicleController.updateVehicle);
-routes.delete("/vehicle/:vehicleId", VehicleController.deleteVehicle);
+routes.put("/vehicle/:vehicleId",  Auth.access, VehicleController.updateVehicle);
+routes.delete("/vehicle/:vehicleId",  Auth.access, VehicleController.deleteVehicle);
 routes.get("/vehicle/status/:status", VehicleController.findVehiclesByStatus);
 
 routes.post("/client", ClientController.createClient);
