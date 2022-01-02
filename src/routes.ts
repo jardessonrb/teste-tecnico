@@ -1,18 +1,21 @@
 import { Request, Response, Router } from 'express';
 import Auth from './auth/Auth';
+import multer from 'multer';
 import ClientController from './controllers/ClientController';
 import EmploeeController from './controllers/EmploeeController';
 import ReserveVehicleController from './controllers/ReserveVehicleController';
 import SaleController from './controllers/SaleController';
 import VehicleController from './controllers/VehicleController';
+import uploadconfig from './uploadconfig';
 
 const routes = Router();
+const uploadAvatarEmploee = multer(uploadconfig);
 
 routes.get("/", (request: Request, response: Response) => {
   return response.send("<h1 align=\"center\">Bem-Vindo(a) CARS</h1>");
 });
 
-routes.post("/emploee", Auth.access, EmploeeController.createEmploee);
+routes.post("/emploee", uploadAvatarEmploee.array("images"), EmploeeController.createEmploee);
 routes.get("/emploee", Auth.access, EmploeeController.listEmploees);
 routes.get("/emploee/login", EmploeeController.login);
 routes.get("/emploee/:cpf", EmploeeController.findEmploeeByCPF);

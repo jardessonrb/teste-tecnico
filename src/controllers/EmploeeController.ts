@@ -7,11 +7,14 @@ import { cleanCPF } from "../validators/validations/validationCPF";
 import { validationPagination } from "../validators/validations/validationPagination";
 import EmploeeView from "../views/EmploeeView";
 import Auth from "../auth/Auth";
-import { emploeeType } from "../types/status";
 
 class EmploeeController{
   async createEmploee(request: Request, response: Response): Promise<Response> {
-    const { name, cpf, email, password, avatar, biography, type } = request.body;
+    const { name, cpf, email, password, biography, type } = request.body;
+
+    const images = request.files as Express.Multer.File[];
+    const avatar = images[0].filename;
+    request.body.avatar = avatar;
 
     const validation: validation = await EmploeeValidator.createValidation(request.body);
     if(!validation.isValid){

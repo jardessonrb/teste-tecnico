@@ -4,8 +4,9 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import { ErrorValidation } from "../types/responses";
 import { emploeeType } from "../types/status";
 class Auth{
-  access(request: Request, response: Response, next: NextFunction){
+  async access(request: Request, response: Response, next: NextFunction): Promise<Response>{
     const { token } = request.body;
+
     if(!token){
       const res: ErrorValidation = {message: "Sem autenticação", type: "error validation", errors: ["Sem autenticação"]};
       return response.status(401).json(res);
