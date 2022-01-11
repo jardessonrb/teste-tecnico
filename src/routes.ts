@@ -1,4 +1,4 @@
-import { Request, Response, Router } from 'express';
+import { Response, Router } from 'express';
 import Auth from './auth/Auth';
 import multer from 'multer';
 import ClientController from './controllers/ClientController';
@@ -11,7 +11,7 @@ import uploadconfig from './uploadconfig';
 const routes = Router();
 const uploadAvatarEmploee = multer(uploadconfig);
 
-routes.get("/", (request: Request, response: Response) => {
+routes.get("/", (_, response: Response) => {
   return response.send("<h1 align=\"center\">Bem-Vindo(a) CARS</h1>");
 });
 
